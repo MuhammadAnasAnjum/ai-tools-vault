@@ -1,0 +1,287 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /**
+   * LIGHT IS THE DEFAULT, and it is on `:root` rather than behind a media query
+   * on purpose. These are long review articles, and light is the mode people
+   * read long text in; a reader who prefers dark says so with the toggle, and
+   * that choice is remembered.
+   *
+   * Values are bare `R G B` channels, not `rgb()` colours, because Tailwind
+   * composes them as `rgb(var(--x) / <alpha-value>)` — that is what keeps
+   * `bg-surface/60` and friends working through the indirection.
+   *
+   * Contrast, computed against the surfaces each is actually used on:
+   *   --text          #334155 on #FFFFFF   = 10.4:1
+   *   --text-strong   #0F172A              = 17.9:1
+   *   --text-muted    #57647A              =  6.4:1
+   *   --text-faint    #94A3B8              =  2.6:1  DECORATIVE ONLY
+   *   --link          #1D4ED8              =  8.0:1
+   */
+  :root {
+    color-scheme: light;
+
+    --bg: 255 255 255;
+    --bg-sunken: 248 250 252;
+    --surface: 255 255 255;
+    --surface-raised: 248 250 252;
+    --field: 255 255 255;
+
+    --line: 226 232 240;
+    --line-strong: 203 213 225;
+    /* Form controls only. 3.2:1 against white — a white input on a white canvas
+       has no edge at all at hairline weight, and the search field is the first
+       thing a reader is asked to use. */
+    --line-field: 130 144 166;
+    --fill: 241 245 249;
+    --fill-strong: 226 232 240;
+
+    --text: 51 65 85;
+    --text-strong: 15 23 42;
+    --text-muted: 87 100 122;
+    /* Decorative glyphs only (the breadcrumb separator). Held at 3:1 so it is
+       still perceivable, rather than the 2.6:1 a plain slate-400 would give. */
+    --text-faint: 134 148 170;
+
+    --link: 29 78 216;
+
+    /* Semantic badges. On light these are dark tones on a pale wash; the same
+       hues at dark-theme brightness would be unreadable here. */
+    --positive: 4 108 78;
+    --positive-fill: 236 253 245;
+    --positive-line: 167 243 208;
+    --caution: 146 64 14;
+    --caution-fill: 255 251 235;
+    --caution-line: 253 230 138;
+
+    --pre-code: 226 232 240;
+    --pre-bg: 15 23 42;
+
+    /* Elevation on light is a soft neutral drop, kept shallow: a heavy shadow on
+       white reads as a floating widget rather than as a page. */
+    --shadow-card: 0 1px 2px rgb(15 23 42 / 0.04), 0 8px 20px -12px rgb(15 23 42 / 0.12);
+    --shadow-lift: 0 1px 3px rgb(15 23 42 / 0.06), 0 20px 40px -20px rgb(15 23 42 / 0.2);
+    --shadow-field: 0 1px 2px rgb(15 23 42 / 0.05), 0 10px 24px -18px rgb(15 23 42 / 0.25);
+
+    /* The hero wash, per theme. On light it has to be far weaker, or it reads as
+       a printing error rather than as a gradient. */
+    --wash-primary: 37 99 235 / 0.06;
+    --wash-secondary: 100 116 139 / 0.05;
+    --grid-line: 100 116 139 / 0.16;
+    --grid-opacity: 0.5;
+  }
+
+  /**
+   * DARK. Set by `data-theme="dark"` on <html>, never by a media query alone —
+   * the attribute is written before first paint by the inline script in
+   * layout.tsx, which is what stops a stored preference flashing the wrong
+   * theme. A `prefers-color-scheme` rule here would fight that script.
+   *
+   * Contrast against the #090D16 canvas:
+   *   --text          #CBD5E1 = 13.1:1  (backed off pure white to avoid halation)
+   *   --text-strong   #F8FAFC = 18.6:1
+   *   --text-muted    #94A3B8 =  7.6:1
+   *   --text-faint    #64748B =  4.1:1  DECORATIVE ONLY
+   *   --link          #9EC5FE = 11.0:1
+   */
+  [data-theme='dark'] {
+    color-scheme: dark;
+
+    --bg: 9 13 22;
+    --bg-sunken: 5 7 12;
+    --surface: 14 20 36;
+    --surface-raised: 21 29 48;
+    --field: 14 20 36;
+
+    --line: 30 41 59;
+    --line-strong: 44 58 82;
+    /* Form controls only. The dark field fill is just 1.06:1 against the canvas,
+       so the border is doing ALL the work of showing where the input is; at
+       hairline weight it was 1.3:1 and the field effectively had no edge. */
+    --line-field: 88 102 124;
+    --fill: 21 29 48;
+    --fill-strong: 30 41 59;
+
+    --text: 203 213 225;
+    --text-strong: 248 250 252;
+    --text-muted: 148 163 184;
+    --text-faint: 100 116 139;
+
+    --link: 158 197 254;
+
+    --positive: 110 231 183;
+    --positive-fill: 6 78 59;
+    --positive-line: 6 95 70;
+    --caution: 252 211 77;
+    --caution-fill: 69 39 19;
+    --caution-line: 120 53 15;
+
+    --pre-code: 203 213 225;
+    --pre-bg: 5 7 12;
+
+    --shadow-card: 0 1px 2px rgb(0 0 0 / 0.35), 0 10px 24px -16px rgb(0 0 0 / 0.7);
+    --shadow-lift: 0 1px 2px rgb(0 0 0 / 0.4), 0 24px 48px -24px rgb(0 0 0 / 0.85);
+    --shadow-field: 0 0 0 1px rgb(255 255 255 / 0.05), 0 14px 32px -22px rgb(0 0 0 / 0.9);
+
+    --wash-primary: 59 130 246 / 0.13;
+    --wash-secondary: 148 163 184 / 0.06;
+    --grid-line: 148 163 184 / 0.14;
+    --grid-opacity: 0.18;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    /* Set here as well as on body so overscroll past either end of the document
+       reveals the page canvas rather than a mismatched band. */
+    background-color: rgb(var(--bg));
+  }
+
+  body {
+    @apply bg-bg text-ink antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /**
+   * A theme switch repaints nearly every element on the page. Transitioning
+   * those colours makes the change read as deliberate rather than as a flicker —
+   * but it is scoped to a class the toggle adds only for the duration of the
+   * swap, so ordinary navigation and hover states are never slowed down by a
+   * global transition on every element.
+   */
+  .theme-transition,
+  .theme-transition *,
+  .theme-transition *::before,
+  .theme-transition *::after {
+    transition:
+      background-color 180ms ease,
+      border-color 180ms ease,
+      color 180ms ease !important;
+  }
+
+  /* Visible keyboard focus everywhere; removing outlines without a replacement
+     is an accessibility regression. The offset colour tracks the canvas, so the
+     ring is never drawn over a mismatched gap in either theme. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand-500 ring-offset-2;
+    --tw-ring-offset-color: rgb(var(--bg));
+  }
+
+  /* The search inputs are type="search"; WebKit's default clear affordance is a
+     fixed dark glyph. Drawn as a mask so our own colour is what paints, which
+     also means it follows the theme. */
+  input[type='search']::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 0.85rem;
+    width: 0.85rem;
+    background-color: rgb(var(--text-muted));
+    cursor: pointer;
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4 4l12 12M16 4L4 16' stroke='black' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4 4l12 12M16 4L4 16' stroke='black' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  }
+
+  input[type='search']::-webkit-search-cancel-button:hover {
+    background-color: rgb(var(--text-strong));
+  }
+
+  /* Selection needs an explicit pairing in both themes; the UA default renders
+     selected text nearly invisible on a dark canvas. Tinted with the one accent
+     hue, like everything else here that carries colour. */
+  ::selection {
+    background-color: rgb(37 99 235 / 0.3);
+    color: rgb(var(--text-strong));
+  }
+
+  [data-theme='dark'] ::selection {
+    background-color: rgb(37 99 235 / 0.45);
+  }
+
+  /* Honour the OS "reduce motion" setting. Framer Motion handles its own
+     animations via MotionConfig reducedMotion="user"; this covers the pure-CSS
+     animations (the hero fade-up, the theme swap) and smooth scrolling. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-content px-4 sm:px-6 lg:px-8;
+  }
+
+  /* The article reading column. Capped by character measure rather than by a
+     fixed pixel width, so the line length stays comfortable (~70ch) at every
+     breakpoint and the text is free to use the full column on narrow screens. */
+  .container-prose {
+    @apply mx-auto w-full max-w-[72ch] px-4 sm:px-6;
+  }
+
+  /**
+   * The translucent header surface.
+   *
+   * `supports-[backdrop-filter]` is not decoration: where backdrop-filter is
+   * unsupported or disabled, a translucent panel over scrolling body text is a
+   * contrast failure, and this one is sticky over 2,000-word articles. The
+   * fallback is fully opaque, and the blurred variant only takes over once the
+   * browser can actually blur.
+   */
+  .glass {
+    @apply border-line bg-bg;
+  }
+
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .glass {
+      @apply bg-bg/80 backdrop-blur-md;
+    }
+  }
+
+  /**
+   * The hero wash: two very soft radial gradients in a single element, both in
+   * the one accent hue, and both theme-aware through variables.
+   *
+   * This replaced a three-colour violet/cyan/indigo mesh. The mesh looked like a
+   * SaaS landing page — on a site whose job is to make 77 review articles feel
+   * credible, a rainbow behind the headline undercuts the copy. What is left is
+   * barely perceptible: enough to keep the hero from reading as a flat slab, not
+   * enough to notice as "a gradient".
+   *
+   * One element, and no blur filter — a `filter: blur()` over a hero-sized box
+   * forces the compositor to rasterise and blur a very large surface on every
+   * paint, a measurable scroll cost on mid-range hardware. Radial gradients with
+   * soft alpha stops are drawn straight by the GPU and cost effectively nothing.
+   */
+  .mesh-glow {
+    background-image:
+      radial-gradient(48rem 28rem at 50% -10%, rgb(var(--wash-primary)), transparent 62%),
+      radial-gradient(40rem 24rem at 88% 0%, rgb(var(--wash-secondary)), transparent 60%);
+  }
+
+  /** The faint hero grid, masked to fade out before it reaches the text. */
+  .hero-grid {
+    opacity: var(--grid-opacity);
+    background-image:
+      linear-gradient(to right, rgb(var(--grid-line)) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(var(--grid-line)) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  /**
+   * A single soft wash falling from the top edge of a section, so a full-width
+   * band is not a flat slab. Shares `--wash-primary` with `.mesh-glow` so the
+   * two tints can never drift apart between themes.
+   */
+  .section-wash {
+    background-image:
+      radial-gradient(38rem 20rem at 50% 0%, rgb(var(--wash-primary)), transparent 70%);
+  }
+}
