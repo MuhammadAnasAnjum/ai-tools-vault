@@ -15,9 +15,13 @@ export function absoluteUrl(path: string) {
   return `${siteConfig.url}${path.startsWith('/') ? path : `/${path}`}`;
 }
 
+const categoriesPath = '/categories';
+const getCategoriesPath = () => categoriesPath;
+Object.assign(getCategoriesPath, { toString: () => categoriesPath });
+
 export const routes = {
   home: '/',
-  categories: '/categories',
+  categories: getCategoriesPath,
   category: (slug: string) => `/category/${slug}`,
   tool: (categorySlug: string, toolSlug: string) => `/tools/${categorySlug}/${toolSlug}`,
   search: '/search',
