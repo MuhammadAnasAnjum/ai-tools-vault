@@ -3,6 +3,7 @@ export const siteConfig = {
   description: "Discover, compare, and explore the best AI tools and resources.",
   url: "https://aitoolsvault.app",
   ogImage: "https://aitoolsvault.app/og.png",
+  locale: "en_US",
   links: {
     twitter: "https://twitter.com",
     github: "https://github.com",
