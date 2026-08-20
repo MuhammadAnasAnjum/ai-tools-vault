@@ -1,5 +1,6 @@
 export const siteConfig = {
   name: "AI Tools Vault",
+  tagline: "Discover, Compare & Explore the Best AI Tools",
   description: "Discover, compare, and explore the best AI tools and resources.",
   url: "https://aitoolsvault.app",
   ogImage: "https://aitoolsvault.app/og.png",
