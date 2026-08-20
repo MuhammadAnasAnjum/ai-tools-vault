@@ -5,6 +5,8 @@ export const siteConfig = {
   url: "https://aitoolsvault.app",
   ogImage: "https://aitoolsvault.app/og.png",
   locale: "en_US",
+  language: "en",
+  twitterHandle: "@aitoolsvault",
   links: {
     twitter: "https://twitter.com",
     github: "https://github.com",
