@@ -10,3 +10,26 @@ export const siteConfig = {
 };
 
 export type SiteConfig = typeof siteConfig;
+
+export function absoluteUrl(path: string) {
+  return `${siteConfig.url}${path.startsWith('/') ? path : `/${path}`}`;
+}
+
+export const routes = {
+  home: '/',
+  categories: '/categories',
+  category: (slug: string) => `/category/${slug}`,
+  tool: (categorySlug: string, toolSlug: string) => `/tools/${categorySlug}/${toolSlug}`,
+  search: '/search',
+};
+
+export const FALLBACK_ICON = 'Wrench';
+
+export const categoryIcons: Record<string, string> = {
+  writing: 'PenTool',
+  productivity: 'Zap',
+  image: 'Image',
+  video: 'Video',
+  coding: 'Code',
+  chatbots: 'MessageSquare',
+};
